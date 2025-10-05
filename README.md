@@ -50,6 +50,27 @@ for _ in range(1000):
 ✅Real-time visualization dashboard
 ✅ONNX model export for edge deployment
 
+### Features Implemented
+
+### 🛫 Local AI Trainer
+- PPO agent trained with PyTorch
+- 17-dimensional observation space:
+  - 12 base flight states
+  - 4 radar inputs (az, el, rng, closure)
+  - 1 missile warning
+- Continuous action space: aileron, elevator, rudder, throttle
+
+### 🧠 Tactical Decision Engine
+- **BOOM & ZOOM**: Energy fighting at long range
+- **TURN FIGHT**: Within visual range dogfight
+- **DEFENSIVE SPIRAL**: Evasive maneuver under missile lock
+- **SEARCH**: Re-engage or disengage
+
+### 📊 Training
+- Reward shaping for tactical behavior
+- Model saved as `dogfight_ppo_agent.pth`
+- Ready for Azure ML integration
+
 Acknowledgements
 Credit DBRL, JSBSim, and Microsoft AirSim
 

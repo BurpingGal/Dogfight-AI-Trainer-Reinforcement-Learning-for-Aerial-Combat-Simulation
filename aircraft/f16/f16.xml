@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<fdm_config name="f16" version="2.0" release="y">
+
+  <metrics>
+    <wingarea unit="FT2"> 300 </wingarea>
+    <wingspan unit="FT"> 30 </wingspan>
+  </metrics>
+
+  <mass_balance>
+    <emptywt unit="LBS"> 17400 </emptywt>
+  </mass_balance>
+
+  <aerodynamics>
+    <type>ABSOLUTE</type>
+  </aerodynamics>
+
+  <propulsion>
+    <engine>
+      <name>Simple</name>
+      <engine_type>none</engine_type>
+    </engine>
+  </propulsion>
+
+</fdm_config>

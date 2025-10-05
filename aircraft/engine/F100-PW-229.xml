@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<propulsion>
+  <engine>
+    <name>F100-PW-229</name>
+    <engine_type>turbofan</engine_type>
+    <thrust_unit>POUND</thrust_unit>
+    <reference_thrust>24000</reference_thrust>
+    <max_thrust>24000</max_thrust>
+    <inlet>
+      <ram_recovery>1.0</ram_recovery>
+    </inlet>
+    <spool>
+      <time_constant>2.0</time_constant>
+    </spool>
+    <thrust>
+      <max>24000</max>
+      <min>0</min>
+    </thrust>
+  </engine>
+</propulsion>

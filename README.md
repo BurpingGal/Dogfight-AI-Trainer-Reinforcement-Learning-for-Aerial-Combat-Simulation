@@ -27,8 +27,7 @@ flowchart TD
     D --> A
 
  ### Installation & Setup
- git clone https://github.com/BurpingGal/dogfight-ai-trainer.git
-cd dogfight-ai-trainer
+ git clone https://github.com/BurpingGal/Dogfight-AI-Trainer-Reinforcement-Learning-for-Aerial-Combat-Simulation/tree/main
 pip install -r requirements.txt
 
 ### Usage

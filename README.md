@@ -70,6 +70,13 @@ for _ in range(1000):
 - Model saved as `dogfight_ppo_agent.pth`
 - Ready for Azure ML integration
 
+### ☁️ Azure ML Integration 
+- Cloud Training
+- Log metrics: episode reward, tactic usage
+- Save model to cloud registry
+- Start with CPU instance for setup
+- Later: GPU cluster (`NC6` or `NC4as_T4_v3`) for training
+  
 Acknowledgements
 Credit DBRL, JSBSim, and Microsoft AirSim
 

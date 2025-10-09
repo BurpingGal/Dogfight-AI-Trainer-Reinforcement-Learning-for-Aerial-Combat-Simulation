@@ -1,3 +1,17 @@
+# Install dependencies first
+import subprocess
+import sys
+
+def install(package):
+    subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+
+# Install required packages
+install("gymnasium")
+install("torch")
+install("numpy")
+install("jsbsim")  # Add this line
+
+# Now import
 import gymnasium as gym
 import torch
 import torch.nn as nn
@@ -5,7 +19,16 @@ import torch.optim as optim
 from torch.distributions import Normal
 import numpy as np
 import os
-from src.environment.dogfight_env import DogfightEnv
+from azureml.core import Run
+
+# Get Azure ML run context
+run = Run.get_context()
+
+# Import Azure ML at the top, but use after initialization
+from azureml.core import Run
+
+# Get Azure ML run context (must be after imports)
+run = Run.get_context()
 
 # Device
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -19,11 +42,13 @@ MAX_TIMESTEPS = 500
 UPDATE_EVERY = 2000
 CLIP_EPS = 0.2
 
+# Import environment after dependencies
+from src.environment.dogfight_env import DogfightEnv
+
 # Create environment to get dimensions
 env = DogfightEnv()
 state_dim = env.observation_space.shape[0]  # Should be 17
 action_dim = env.action_space.shape[0]      # Should be 4
-
 print(f"State dim: {state_dim}, Action dim: {action_dim}")
 
 # Actor-Critic Network
@@ -51,7 +76,7 @@ optimizer = optim.Adam(agent.parameters(), lr=LR)
 
 # Load saved model if exists
 if os.path.exists('dogfight_ppo_agent.pth'):
-    agent.load_state_dict(torch.load('dogfight_ppo_agent.pth'))
+    agent.load_state_dict(torch.load('dogfight_ppo_agent.pth', map_location=device))
     print("Model loaded successfully.")
 else:
     print("No saved model found. Starting from scratch.")
@@ -77,7 +102,7 @@ print("Starting PPO training...")
 
 for episode in range(EPISODES):
     state, _ = env.reset()
-    ep_reward = 0
+    ep_reward = 0  # ← This is your episode reward
 
     for t in range(MAX_TIMESTEPS):
         state_tensor = torch.FloatTensor(state).unsqueeze(0).to(device)
@@ -132,6 +157,7 @@ for episode in range(EPISODES):
                 loss.backward()
                 optimizer.step()
 
+            # ✅ Clear buffers
             states.clear()
             actions.clear()
             log_probs.clear()
@@ -142,6 +168,12 @@ for episode in range(EPISODES):
         if done or trunc:
             break
 
+    # ✅ LOG METRICS HERE — after ep_reward is calculated
+    run.log("episode_reward", ep_reward)
+    run.log("tactic_used", tactic)
+    run.log("training_loss", loss.item() if 'loss' in locals() else 0.0)
+
+    # Optional: print every 10 episodes
     if episode % 10 == 0:
         print(f"Episode {episode}, Reward: {ep_reward:.2f}")
 
